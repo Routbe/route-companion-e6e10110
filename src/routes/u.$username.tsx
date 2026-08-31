@@ -1,5 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
-import Page from "@/pages/routes/u.username";
+import { useEffect } from "react";
+import { createFileRoute, useParams } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
+import { ProfileLookupError, ProfileMissing, ProfileView } from "@/components/profile/ProfileView";
+import { ProfileSuspended } from "@/components/profile/ProfileSuspended";
+import { ProfileFrozen } from "@/components/profile/ProfileFrozen";
+import { useProfileRecord } from "@/hooks/useProfileRecord";
 import { getPublicProfileByHandle } from "@/lib/studio-profile.functions";
 import { getRequestLocale } from "@/lib/locale.functions";
 import { canonicalLinks, profileJsonLd, profileSocialMeta, socialMeta } from "@/lib/social-meta";
@@ -8,6 +13,43 @@ import { parseDisplayPrefs, bioForLocale } from "@/lib/profile-display";
 import { sanitizeHandleInput } from "@/lib/validations/sanitizeHandle";
 
 type Row = Record<string, unknown> | null;
+
+function FreeProfile() {
+  const { username } = useParams({ strict: false }) as { username: string };
+  // Normalise: strip a leading @ so /u/john and /u/@john resolve identically.
+  const handle = username.replace(/^@/, "").toLowerCase();
+  const { profile, suspended, loading, error, retry } = useProfileRecord(handle, { free: true });
+
+  useEffect(() => {
+    if (profile) document.title = `${profile.display_name || `@${profile.username}`} — ROUT`;
+  }, [profile]);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // A failed lookup must never render as "still available".
+  if (error) {
+    return <ProfileLookupError username={handle} onRetry={retry} />;
+  }
+
+  if (!profile) return <ProfileMissing username={handle} free />;
+
+  if (suspended || profile.status === "suspended" || profile.status === "banned") {
+    return <ProfileSuspended username={handle} />;
+  }
+
+  // Self-paused (frozen) accounts stay private until the owner signs in again.
+  if (profile.status === "frozen") {
+    return <ProfileFrozen username={handle} />;
+  }
+
+  return <ProfileView profile={profile} free />;
+}
 
 export const Route = createFileRoute("/u/$username")({
   /**
@@ -67,5 +109,5 @@ export const Route = createFileRoute("/u/$username")({
       })(),
     };
   },
-  component: Page,
+  component: FreeProfile,
 });

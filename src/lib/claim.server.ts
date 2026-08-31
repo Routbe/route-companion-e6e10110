@@ -2,6 +2,7 @@
  * Server-only helpers for the /claim flow: reading the caller's current handle
  * and atomically writing a free handle onto their profile.
  */
+import type { DbClient } from "@/lib/db/builder";
 
 export async function readMyHandle(userId: string) {
   const { dbAdmin } = await import("@/lib/db/admin.server");
@@ -108,7 +109,7 @@ export async function claimHandleFor(
    * first (so it works even without a service-role key) and only falls back to
    * the admin client when RLS/grants block the member's own update.
    */
-  asUser?: { from: (table: string) => any },
+  asUser?: DbClient,
 ) {
   const { normalizeHandle, isHandleFree } = await import("./onboarding.server");
   const { hasValidDigitSuffix } = await import("./handle-suggestions");

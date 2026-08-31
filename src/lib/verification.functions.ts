@@ -419,8 +419,9 @@ export const getVerificationState = createServerFn({ method: "GET" })
         .eq("id", context.userId)
         .maybeSingle();
 
-    let { data, error } = await selectProfile();
+    const { data: initialData, error } = await selectProfile();
     if (error) throw new Error("profile_status_unavailable");
+    let data = initialData;
 
     if (!data) {
       const { error: repairError } = await context.db

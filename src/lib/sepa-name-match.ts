@@ -197,7 +197,7 @@ export function matchPayerName(
 
 /** Labelled fields banks use for the counterparty on an inbound transfer. */
 const NAME_LABELS =
-  /(?:van|from|payer|counterparty|counter\s*party|opdrachtgever|naam(?:\s*rekeninghouder)?|account\s*holder|sender|absender|donneur\s*d['’]ordre|expéditeur|expediteur)\s*[:\-]\s*([^\n\r;|]{2,80})/i;
+  /(?:van|from|payer|counterparty|counter\s*party|opdrachtgever|naam(?:\s*rekeninghouder)?|account\s*holder|sender|absender|donneur\s*d['’]ordre|expéditeur|expediteur)\s*[:-]\s*([^\n\r;|]{2,80})/i;
 
 /**
  * Best-effort payer name from a free-text bank notification. Returns `null`
