@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useNavigate } from "@/lib/router-compat";
 import {
@@ -60,18 +60,37 @@ import {
 } from "@/lib/export-retention";
 import {
   amIAdmin,
+  approveVerification,
+  banUser,
+  bulkGrantVipToUsers,
+  bulkModerateUsers,
+  bulkRetryAlias,
+  cleanseProfileContent,
   controlUserAlias,
   exportInboundChunk,
   getDeploymentChecklist,
+  getSystemHealth,
+  getSystemHealthRows,
   listAliases,
   listAuditLogCursor,
   listAuditLogPage,
   listInboundPayments,
+  listIncompletePayments,
+  listPendingVerifications,
   listTransactions,
+  listUsers,
   logExportEvent,
+  matchPaymentReference,
   reprocessInboundPayment,
+  resolveIncompletePayment,
   runAliasSync,
+  setVerificationStatus,
+  suggestHandlesForBankName,
+  suspendProfile,
 } from "@/lib/admin.functions";
+import { parseRoutReference } from "@/lib/reference-parser";
+import type { UserSegment } from "@/lib/admin-segments";
+import type { BulkAction, KpiMetric, Pending, UserRow } from "@/types/admin";
 import { AdminOverviewPanel } from "@/components/admin/AdminOverviewPanel";
 import { EnvHealthPanel } from "@/components/admin/EnvHealthPanel";
 import { NewsletterSyncPanel } from "@/components/admin/NewsletterSyncPanel";
