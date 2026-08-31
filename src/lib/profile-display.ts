@@ -101,6 +101,7 @@ export interface ProfileDisplayPrefs {
 }
 
 /** Alle designvelden zitten in dezelfde JSON-blob. */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- merges design prefs into the interface above
 export interface ProfileDisplayPrefs extends ProfileDesignPrefs {}
 
 export const DEFAULT_DISPLAY_PREFS: ProfileDisplayPrefs = {

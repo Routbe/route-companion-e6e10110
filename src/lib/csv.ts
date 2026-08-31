@@ -14,6 +14,7 @@ const FORMULA_TRIGGERS = /^[=+\-@\t\r]/;
 export function sanitizeCsvField(value: unknown): string {
   if (value === null || value === undefined) return "";
   // Strip control characters that break parsers, keep tab/newline handling to the quoter.
+  // eslint-disable-next-line no-control-regex -- intentionally strips control chars
   const raw = String(value).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, "");
   return FORMULA_TRIGGERS.test(raw) ? `'${raw}` : raw;
 }

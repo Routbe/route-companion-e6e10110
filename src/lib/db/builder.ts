@@ -38,6 +38,7 @@ class QueryBuilder<T = any> implements PromiseLike<QueryResult<T>> {
     }
     if (options?.count) this.descriptor.count = options.count;
     if (options?.head) this.descriptor.head = true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any[]>();
   }
 
@@ -45,6 +46,7 @@ class QueryBuilder<T = any> implements PromiseLike<QueryResult<T>> {
     this.descriptor.action = "insert";
     this.descriptor.values = values;
     this.descriptor.returning = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any[]>();
   }
 
@@ -57,6 +59,7 @@ class QueryBuilder<T = any> implements PromiseLike<QueryResult<T>> {
     if (options?.onConflict) this.descriptor.onConflict = options.onConflict;
     if (options?.ignoreDuplicates) this.descriptor.ignoreDuplicates = true;
     this.descriptor.returning = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any[]>();
   }
 
@@ -64,12 +67,14 @@ class QueryBuilder<T = any> implements PromiseLike<QueryResult<T>> {
     this.descriptor.action = "update";
     this.descriptor.values = values;
     this.descriptor.returning = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any[]>();
   }
 
   delete() {
     this.descriptor.action = "delete";
     this.descriptor.returning = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any[]>();
   }
 
@@ -145,11 +150,13 @@ class QueryBuilder<T = any> implements PromiseLike<QueryResult<T>> {
 
   single() {
     this.descriptor.rowMode = "single";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any>();
   }
 
   maybeSingle() {
     this.descriptor.rowMode = "maybe";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.self<any>();
   }
 
@@ -184,11 +191,13 @@ class RpcBuilder<T = any> implements PromiseLike<QueryResult<T>> {
 
   single() {
     this.descriptor.rowMode = "single";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this as unknown as RpcBuilder<any>;
   }
 
   maybeSingle() {
     this.descriptor.rowMode = "maybe";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this as unknown as RpcBuilder<any>;
   }
 

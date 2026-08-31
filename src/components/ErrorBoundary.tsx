@@ -43,7 +43,9 @@ export class ErrorBoundary extends Component<Props, State> {
         doomed.forEach((key) => window.localStorage.removeItem(key));
         window.sessionStorage.clear();
       }
-    } catch {}
+    } catch {
+      // best-effort cleanup; ignore storage errors
+    }
     this.reload();
   };
   override render() {
