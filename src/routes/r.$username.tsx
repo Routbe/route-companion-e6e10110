@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams, useNavigate } from "@tanstack/react-router";
 
 import { useEffect } from "react";
 import { RouteErrorFallback, RoutePendingSkeleton } from "@/components/RouteFallbacks";
