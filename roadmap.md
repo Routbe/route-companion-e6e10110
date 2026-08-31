@@ -9,3 +9,4 @@
 - [ ] Fix 5x `react-hooks/exhaustive-deps` (QRPreview, QRInputFields, Index)
 - [ ] Replace `any` in server/API functions with strict types
 - [ ] Verify: 293 tests pass + `tsgo --noEmit` clean
+- [ ] Keep /tmp/observability/build-errors.log clean (typecheck must pass before finishing)
