@@ -35,7 +35,9 @@ const EXPECTED = [
 
 describe("route tree", () => {
   // Route ids only exist once the router has initialised the tree.
-  const ids = Object.keys((getRouter() as unknown as { routesById: Record<string, unknown> }).routesById);
+  const ids = Object.keys(
+    (getRouter() as unknown as { routesById: Record<string, unknown> }).routesById,
+  );
 
   it("registers every expected route", () => {
     for (const id of EXPECTED) {
